@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kuiz Watak dan Perwatakan – Majlis Perkahwinan Tijah</title>
+<style>
+:root{--bg:#fff6e0;--card:#fffdf6;--ink:#2b2118;--mute:#6b5a48;--line:#d9c7a3;--tok:#2f6b4f;--tokbg:#dff0e5;--tij:#b8432f;--tijbg:#fbe1da;--non:#5b5b6e;--nonbg:#e8e8f0;--ok:#2f8f4e;--bad:#c0392b;--btn:#2f6b4f;--btnink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1812;--card:#272118;--ink:#f5ead6;--mute:#b9a98f;--line:#4a3f2d;--tok:#7fd1a4;--tokbg:#1f3a2c;--tij:#f0917c;--tijbg:#42241d;--non:#b9b9d0;--nonbg:#2c2c3a;--ok:#6fd48f;--bad:#ff8a7a;--btn:#7fd1a4;--btnink:#10231a}}
+:root[data-theme="dark"]{--bg:#1c1812;--card:#272118;--ink:#f5ead6;--mute:#b9a98f;--line:#4a3f2d;--tok:#7fd1a4;--tokbg:#1f3a2c;--tij:#f0917c;--tijbg:#42241d;--non:#b9b9d0;--nonbg:#2c2c3a;--ok:#6fd48f;--bad:#ff8a7a;--btn:#7fd1a4;--btnink:#10231a}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito","Trebuchet MS",system-ui,sans-serif;line-height:1.5;-webkit-user-select:none;user-select:none}
+.wrap{max-width:960px;margin:0 auto;padding:16px}
+h1{font-family:"Fredoka","Trebuchet MS",sans-serif;font-size:clamp(1.5rem,5vw,2.2rem);margin:0 0 4px;line-height:1.15}
+.top{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.sub{color:var(--mute);margin:0 0 12px}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:10px 18px;background:var(--btn);color:var(--btnink);font-weight:700}
+button.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);padding:8px 12px}
+button:focus-visible{outline:3px solid var(--tij);outline-offset:2px}
+.text{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:14px;font-size:.95rem}
+.text summary{cursor:pointer;font-weight:700}
+.text p{margin:.5em 0}
+.stats{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0;font-weight:700}
+.bar{flex:1;min-width:120px;height:12px;background:var(--line);border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s}
+#msg{min-height:3em;border-radius:12px;padding:8px 14px;background:var(--card);border:2px solid var(--line);margin-bottom:12px;font-weight:600}
+#msg.ok{border-color:var(--ok)}#msg.bad{border-color:var(--bad)}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:700px){.zones{grid-template-columns:1fr}}
+.zone{border:3px dashed var(--line);border-radius:18px;padding:10px;min-height:150px;transition:transform .15s,background .15s}
+.zone h2{font-family:"Fredoka","Trebuchet MS",sans-serif;font-size:1.25rem;margin:0 0 2px}
+.zone small{display:block;color:var(--mute);margin-bottom:8px}
+.zone.tok{background:var(--tokbg);border-color:var(--tok)}.zone.tok h2{color:var(--tok)}
+.zone.tijah{background:var(--tijbg);border-color:var(--tij)}.zone.tijah h2{color:var(--tij)}
+.zone.none{background:var(--nonbg);border-color:var(--non)}.zone.none h2{color:var(--non)}
+.zone.over{transform:scale(1.03);border-style:solid}
+.zone.shake{animation:sh .4s}
+@keyframes sh{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.placed{background:var(--card);border-radius:10px;padding:6px 10px;margin:6px 0;font-size:.85rem;border-left:5px solid var(--ok)}
+.placed b{display:block;font-size:.95rem}
+.placed span{color:var(--mute)}
+.tray{margin-top:14px;padding:12px;border-radius:18px;background:var(--card);border:2px solid var(--line);min-height:70px;display:flex;flex-wrap:wrap;gap:10px}
+.chip{touch-action:none;cursor:grab;background:var(--bg);border:3px solid var(--ink);border-radius:999px;padding:8px 18px;font-weight:800;font-size:1.05rem}
+.chip.sel{background:var(--tij);color:#fff;border-color:var(--tij)}
+.chip.ghost{position:fixed;z-index:99;pointer-events:none;box-shadow:0 8px 20px rgba(0,0,0,.35);transform:translate(-50%,-50%) rotate(-4deg)}
+.screen{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+.screen[hidden]{display:none}
+.screen div{max-width:480px}
+.big{font-size:3rem;margin:0}
+@media (prefers-reduced-motion:reduce){.zone.shake{animation:none}.zone{transition:none}}
+</style>
+</head>
+<body>
+<div class="screen" id="start"><div>
+<p class="big">🎶🏡</p>
+<h1>Kuiz Watak dan Perwatakan</h1>
+<p class="sub">Seret setiap perwatakan ke watak yang betul. Bacalah dialog dengan teliti!</p>
+<button id="go">Mula Bermain</button>
+</div></div>
+<div class="screen" id="end" hidden><div>
+<p class="big" id="stars"></p>
+<h1 id="endt"></h1>
+<p class="sub" id="endp"></p>
+<button id="again">Main Semula</button>
+</div></div>
+
+<main class="wrap">
+<div class="top">
+<div><h1>Kuiz Watak dan Perwatakan</h1><p class="sub">Seret kad perwatakan ke kotak watak yang betul. Pada telefon, ketik kad kemudian ketik kotak.</p></div>
+<div style="display:flex;gap:6px"><button class="ghost" id="mus" aria-label="Muzik">🎵 Muzik</button><button class="ghost" id="sfx" aria-label="Bunyi">🔊 Bunyi</button></div>
+</div>
+
+<details class="text"><summary>Baca semula teks dialog</summary>
+<p><b>Tok Batin Bidi:</b> Tijah, ayah baru selesai berbincang dengan saudara kita tentang perkahwinan kamu. Kita akan mengadakan majlis perkahwinan kamu mengikut adat resam kita.</p>
+<p><b>Tijah:</b> (Tersenyum riang) Wah, Tijah sangat teruja, ayah! Apakah perkara yang telah dibincangkan?</p>
+<p><b>Tok Batin Bidi:</b> Ayah telah mengaturkan istiadat perarakan pengantin lelaki. Ayah juga bercadang untuk membina pelamin tradisional yang dihiasi daun-daun. Majlis kamu nanti akan dimeriahkan juga dengan persembahan tarian sewang. Kamu setuju?</p>
+<p><b>Tijah:</b> Mestilah Tijah setuju, ayah. Semua itu ialah warisan budaya kita. Tijah juga sedang berbincang dengan ibu untuk mengenakan perhiasan tradisional kita.</p>
+<p><b>Tok Batin Bidi:</b> Baguslah, Tijah. Ayah sebagai tok batin memang sangat berharap agar majlis perkahwinan kamu nanti akan menjadi contoh kepada masyarakat kita.</p>
+<p><b>Tijah:</b> Tijah berharap semoga majlis itu nanti akan dapat memberikan kesedaran kepada masyarakat kita untuk menjaga adat budaya.</p>
+</details>
+
+<div class="stats"><span>⭐ Skor: <span id="score">0</span></span><span>❌ Salah: <span id="wrong">0</span></span><div class="bar"><i id="fill"></i></div><span id="prog">0/10</span></div>
+<div id="msg" aria-live="polite">Pilih satu kad perwatakan dan seret ke kotak yang betul.</div>
+
+<div class="zones">
+<div class="zone tok" data-w="tok"><h2>🧓 Tok Batin Bidi</h2><small>Ketua orang asli, ayah Tijah</small></div>
+<div class="zone tijah" data-w="tijah"><h2>👧 Tijah</h2><small>Anak yang akan berkahwin</small></div>
+<div class="zone none" data-w="none"><h2>🚫 Bukan perwatakan mereka</h2><small>Tiada bukti dalam teks</small></div>
+</div>
+<div class="tray" id="tray" aria-label="Kad perwatakan"></div>
+</main>
+
+<script>
+(function(){
+var CARDS=[
+{t:"Bertanggungjawab",w:"tok",e:"Dia mengatur istiadat perarakan dan membina pelamin untuk majlis anaknya."},
+{t:"Demokratik",w:"tok",e:"Dia bertanya, “Kamu setuju?” untuk mendapatkan pendapat Tijah."},
+{t:"Prihatin terhadap masyarakat",w:"tok",e:"Dia berharap majlis itu menjadi contoh kepada masyarakat."},
+{t:"Mementingkan adat resam",w:"tok",e:"Majlis diadakan mengikut adat resam kaum mereka."},
+{t:"Riang dan teruja",w:"tijah",e:"Tijah tersenyum riang dan berkata dia sangat teruja."},
+{t:"Taat kepada ayah",w:"tijah",e:"Dia setuju dengan rancangan ayahnya, “Mestilah Tijah setuju, ayah.”"},
+{t:"Menghargai warisan budaya",w:"tijah",e:"Dia menyebut semua itu ialah warisan budaya kita."},
+{t:"Cinta akan budaya",w:"tijah",e:"Dia berharap majlis itu memberi kesedaran untuk menjaga adat budaya."},
+{t:"Pemarah",w:"none",e:"Tiada bukti. Mereka bercakap dengan lembut dan mesra."},
+{t:"Pentingkan diri sendiri",w:"none",e:"Tiada bukti. Mereka memikirkan masyarakat dan budaya."}
+];
+var $=function(s){return document.querySelector(s)};
+var tray=$("#tray"),msg=$("#msg"),sel=null,score=0,wrong=0,done=0,musicOn=true,sfxOn=true,started=false;
+var ctx=null,master=null;
+
+/* ---------- audio ---------- */
+function ac(){if(!ctx){try{ctx=new (window.AudioContext||window.webkitAudioContext)();master=ctx.createGain();master.gain.value=1;master.connect(ctx.destination)}catch(e){}}
+ if(ctx&&ctx.state==="suspended")ctx.resume();return ctx}
+function tone(f,t0,d,type,v,f2){if(!ctx)return;var o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t0+d);
+ g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t0+d);o.connect(g);g.connect(master);o.start(t0);o.stop(t0+d+0.05)}
+function good(){if(!sfxOn||!ac())return;var n=ctx.currentTime;[523.25,659.25,783.99,1046.5].forEach(function(f,i){tone(f,n+i*0.09,0.25,"triangle",0.25)})}
+function bad(){if(!sfxOn||!ac())return;var n=ctx.currentTime;tone(220,n,0.3,"sawtooth",0.18,110);tone(165,n+0.15,0.35,"square",0.12,80)}
+function win(){if(!sfxOn||!ac())return;var n=ctx.currentTime;[523.25,659.25,783.99,659.25,783.99,1046.5,1318.5].forEach(function(f,i){tone(f,n+i*0.13,0.3,"triangle",0.25)})}
+var mel=[392,440,523.25,587.33,659.25,587.33,523.25,440,392,330,392,440,523.25,440,392,330];
+var bass=[196,196,220,220,262,262,196,196],step=0,timer=null;
+function tick(){if(!ctx||!musicOn)return;var n=ctx.currentTime+0.05;tone(mel[step%mel.length],n,0.32,"sine",0.07);if(step%2===0)tone(bass[(step/2)%bass.length|0],n,0.5,"triangle",0.05);step++}
+function startMusic(){if(!ac()||timer)return;timer=setInterval(tick,380)}
+function stopMusic(){clearInterval(timer);timer=null}
+
+/* ---------- game ---------- */
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0,t=a[i];a[i]=a[j];a[j]=t}return a}
+function reset(){
+ score=0;wrong=0;done=0;sel=null;tray.innerHTML="";
+ document.querySelectorAll(".placed").forEach(function(p){p.remove()});
+ shuffle(CARDS.slice()).forEach(function(c){var b=document.createElement("div");b.className="chip";b.textContent=c.t;b._c=c;b.tabIndex=0;b.setAttribute("role","button");tray.appendChild(b)});
+ upd();say("Pilih satu kad perwatakan dan seret ke kotak yang betul.","")}
+function upd(){$("#score").textContent=score;$("#wrong").textContent=wrong;$("#prog").textContent=done+"/"+CARDS.length;$("#fill").style.width=(done/CARDS.length*100)+"%"}
+function say(t,c){msg.textContent=t;msg.className=c||""}
+function place(chip,zone){
+ var c=chip._c;
+ if(c.w===zone.dataset.w){
+  good();score+=10;done++;
+  var p=document.createElement("div");p.className="placed";p.innerHTML="<b></b><span></span>";p.firstChild.textContent="✔ "+c.t;p.lastChild.textContent=c.e;zone.appendChild(p);
+  chip.remove();sel=null;say("Betul! "+c.e,"ok");upd();
+  if(done===CARDS.length)setTimeout(finish,900);
+ }else{
+  bad();wrong++;score=Math.max(0,score-2);zone.classList.remove("shake");void zone.offsetWidth;zone.classList.add("shake");
+  say(c.w==="none"?"Salah. Perwatakan itu ada dalam teks. Cari buktinya semula.":"Salah. Baca semula dialog dan perhatikan kata-kata serta tindakan watak itu.","bad");upd();
+ }}
+function finish(){
+ win();var s=wrong<=2?3:wrong<=5?2:1;
+ $("#stars").textContent="⭐".repeat(s)+"☆".repeat(3-s);
+ $("#endt").textContent=s===3?"Hebat sekali!":s===2?"Bagus!":"Teruskan usaha!";
+ $("#endp").textContent="Skor kamu "+score+" dengan "+wrong+" kesilapan.";
+ $("#end").hidden=false}
+
+/* drag + tap */
+var drag=null,ghost=null,moved=false,sx=0,sy=0;
+tray.addEventListener("pointerdown",function(e){var chip=e.target.closest(".chip");if(!chip)return;ac();drag=chip;moved=false;sx=e.clientX;sy=e.clientY;try{chip.setPointerCapture(e.pointerId)}catch(_){}});
+tray.addEventListener("pointermove",function(e){
+ if(!drag)return;
+ if(!moved&&Math.hypot(e.clientX-sx,e.clientY-sy)>6){moved=true;ghost=drag.cloneNode(true);ghost.classList.add("ghost");document.body.appendChild(ghost);drag.style.opacity=.35}
+ if(moved){ghost.style.left=e.clientX+"px";ghost.style.top=e.clientY+"px";
+  var z=zoneAt(e.clientX,e.clientY);document.querySelectorAll(".zone").forEach(function(q){q.classList.toggle("over",q===z)})}});
+function zoneAt(x,y){var el=document.elementFromPoint(x,y);return el&&el.closest?el.closest(".zone"):null}
+function end(e){
+ if(!drag)return;var chip=drag;drag=null;chip.style.opacity="";
+ document.querySelectorAll(".zone").forEach(function(q){q.classList.remove("over")});
+ if(moved){if(ghost){ghost.remove();ghost=null}var z=zoneAt(e.clientX,e.clientY);if(z)place(chip,z)}
+ else{document.querySelectorAll(".chip").forEach(function(c){c.classList.remove("sel")});if(sel===chip){sel=null}else{sel=chip;chip.classList.add("sel");say("Dipilih: “"+chip._c.t+"”. Ketik kotak watak yang betul.","")}}}
+tray.addEventListener("pointerup",end);
+tray.addEventListener("pointercancel",function(){if(ghost){ghost.remove();ghost=null}if(drag)drag.style.opacity="";drag=null});
+document.querySelectorAll(".zone").forEach(function(z){z.addEventListener("click",function(){if(sel&&sel.isConnected){place(sel,z)}})});
+tray.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){var chip=e.target.closest(".chip");if(chip){e.preventDefault();document.querySelectorAll(".chip").forEach(function(c){c.classList.remove("sel")});sel=chip;chip.classList.add("sel");say("Dipilih: “"+chip._c.t+"”. Ketik atau tekan kotak watak yang betul.","")}}});
+document.querySelectorAll(".zone").forEach(function(z){z.tabIndex=0;z.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&sel&&sel.isConnected){e.preventDefault();place(sel,z)}})});
+
+$("#go").onclick=function(){$("#start").hidden=true;started=true;ac();if(musicOn)startMusic();reset()};
+$("#again").onclick=function(){$("#end").hidden=true;reset()};
+$("#mus").onclick=function(){musicOn=!musicOn;this.textContent=musicOn?"🎵 Muzik":"🔇 Muzik";if(musicOn){startMusic()}else{stopMusic()}};
+$("#sfx").onclick=function(){sfxOn=!sfxOn;this.textContent=sfxOn?"🔊 Bunyi":"🔇 Bunyi"};
+reset();
+})();
+</script>
+</body>
+</html>
